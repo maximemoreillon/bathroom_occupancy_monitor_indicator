@@ -72,7 +72,6 @@ void loop() {
   ws_server.loop();
   
   // Party mode
-
   if(party_mode != last_party_mode){
     last_party_mode = party_mode;
     

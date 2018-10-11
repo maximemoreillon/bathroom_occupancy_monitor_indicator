@@ -1,5 +1,5 @@
 void web_server_setup(){
-  www_server.on("/", handleRoot);
+  www_server.on("/", handle_root);
   www_server.on("/update_form", handle_update_form);
   www_server.on("/update",HTTP_POST, handle_update, handle_update_upload);
   www_server.on("/party", handleParty);
@@ -9,7 +9,7 @@ void web_server_setup(){
 }
 
 
-void handleRoot() {
+void handle_root() {
   String html = pre_main + root_main + post_main;
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
@@ -119,5 +119,3 @@ void handleOff() {
   String html = pre_main +"<h1>Lamp off</h1>"+ post_main;
   www_server.send(200, "text/html", html);
 }
-
-
