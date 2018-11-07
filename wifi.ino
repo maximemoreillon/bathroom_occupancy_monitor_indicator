@@ -1,6 +1,4 @@
 void wifi_setup() {
-
-  WiFi.softAP(AP_SSID, AP_PASSWORD);
-  
+  WiFi.softAP(WIFI_AP_SSID, WIFI_AP_PASSWORD);
 }
 

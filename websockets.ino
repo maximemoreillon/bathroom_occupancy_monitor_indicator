@@ -15,10 +15,10 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
         Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\r\n", num, ip[0], ip[1], ip[2], ip[3], payload);
         
         // Send the current status to anyone connecting (if available)
-        if (strcmp(door_state,"OPEN")==0) {
+        if (toilet_occupied==0) {
           ws_server.sendTXT(num, VACANT, strlen(VACANT));
         }
-        else if (strcmp(door_state,"CLOSED")==0){
+        else if (toilet_occupied==1){
           ws_server.sendTXT(num, OCCUPIED, strlen(OCCUPIED));
         }
       }

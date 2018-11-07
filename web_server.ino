@@ -2,7 +2,6 @@ void web_server_setup(){
   www_server.on("/", handle_root);
   www_server.on("/update_form", handle_update_form);
   www_server.on("/update",HTTP_POST, handle_update, handle_update_upload);
-  www_server.on("/party", handleParty);
   www_server.on("/status_update", handle_status_update);
   www_server.on("/off", handleOff);
   www_server.begin();
@@ -10,7 +9,16 @@ void web_server_setup(){
 
 
 void handle_root() {
-  String html = pre_main + root_main + post_main;
+
+  String root_main_v2 = "";
+
+  for(int toilet_index=0; toilet_index<TOILET_COUNT; toilet_index++){
+    root_main_v2 += String(toilets_occupany[toilet_index]) + "<br>";
+  }
+  
+  String html = pre_main + root_main_v2 + post_main;
+
+  
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
@@ -18,13 +26,7 @@ void handle_root() {
 }
 
 void handle_update_form(){
-  
-  String form = "<form method='POST' action='/update' enctype='multipart/form-data'>"
-  "<input type='file' name='update'>"
-  "<input type='submit' value='Update'>"
-  "</form>";
-
-  String html = pre_main + form + post_main;
+  String html = pre_main + update_form + post_main;
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
@@ -73,40 +75,28 @@ void handle_update_upload(){
 }
 
 
-void handleParty() {
-  
-  party_start_time = millis();
-  
-  String html = pre_main +"<h1>PARTY!!!</h1>"+ post_main;
-  www_server.send(200, "text/html", html);
-}
-
-
 void handle_status_update() {
 
   // The API
 
   // Check the request body for occupancy information
   if (www_server.hasArg("occupied")){
+
+    int toilet_index = www_server.client().remoteIP()[3];
     
     if( www_server.arg("occupied").equals("1") ){
-      door_state = "CLOSED";
-      LED_set(255,0,0,0,0);
-      ws_server.broadcastTXT(OCCUPIED,strlen(OCCUPIED));
+      toilets_occupany[toilet_index] = 1;
+      
     }
     else if( www_server.arg("occupied").equals("0") ){
-      LED_set(0,255,0,0,0);
-      door_state = "OPEN";
-      ws_server.broadcastTXT(VACANT,strlen(VACANT));
+      toilets_occupany[toilet_index] = 0;
     }
-    else {
-      // Error
-      LED_set(0,0,255,0,0);
-    }
+
+    check_one_or_more_free();
   }
 
   // Might not be the right response
-  String html = pre_main + post_main;
+  String html = pre_main + "OK"+ post_main;
   www_server.send(200, "text/html", html);
   
 }

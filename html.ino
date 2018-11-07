@@ -19,7 +19,6 @@ String menu ="<h2>Menu</h2>"
   "<li><a href='/'>Status</a></li>"
   "<li><a href='/update_form'>Firmware update</a></li>"
   "<li><a href='/off'>Turn off</a></li>"
-  "<li><a href='/party'>Party mode</a></li>"
   "</ul>";
   
 String footer = "<div class='footer'> Maxime Moreillon </div>";
@@ -51,3 +50,12 @@ String root_main = "<div id='status_container'>"
   "  }"
   "};"
   "</script>";
+
+
+
+
+// Update form
+String update_form = "<form method='POST' action='/update' enctype='multipart/form-data'>"
+  "<input type='file' name='update'>"
+  "<input type='submit' value='Update'>"
+  "</form>";
