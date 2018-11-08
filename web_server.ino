@@ -3,18 +3,49 @@ void web_server_setup(){
   www_server.on("/update_form", handle_update_form);
   www_server.on("/update",HTTP_POST, handle_update, handle_update_upload);
   www_server.on("/status_update", handle_status_update);
-  www_server.on("/off", handleOff);
   www_server.begin();
 }
 
 
 void handle_root() {
 
-  String root_main_v2 = "";
+  String root_main_v2 = "<h2>Toilets status</h2>";
+  
+  root_main_v2 += "<table>";
+  root_main_v2 += "<th>";
+  root_main_v2 += "Address";
+  root_main_v2 += "</th>";
+
+  root_main_v2 += "<th>";
+  root_main_v2 += "Status";
+  root_main_v2 += "</th>";
 
   for(int toilet_index=0; toilet_index<TOILET_COUNT; toilet_index++){
-    root_main_v2 += String(toilets_occupany[toilet_index]) + "<br>";
+
+    if(toilets_occupany[toilet_index] != -1){
+      root_main_v2 += "<tr>";
+
+      // Cell containing the index
+      root_main_v2 += "<td>";
+      root_main_v2 += "192.168.4." + String(toilet_index);
+      root_main_v2 += "</td>";
+
+      // Cell containing the occupancy
+      root_main_v2 += "<td>";
+      if(toilets_occupany[toilet_index] == 0){
+        root_main_v2 += "VACANT";
+      }
+      else if(toilets_occupany[toilet_index] == 1){
+        root_main_v2 += "OCCUPIED";
+      }
+      root_main_v2 += "</td>";
+      
+      root_main_v2 += "</tr>";
+      
+    }
   }
+
+  root_main_v2 += "</table>";
   
   String html = pre_main + root_main_v2 + post_main;
 
@@ -99,13 +130,4 @@ void handle_status_update() {
   String html = pre_main + "OK"+ post_main;
   www_server.send(200, "text/html", html);
   
-}
-
-
-
-void handleOff() {
-  LED_set(0,0,0,0,0);
-
-  String html = pre_main +"<h1>Lamp off</h1>"+ post_main;
-  www_server.send(200, "text/html", html);
 }

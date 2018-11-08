@@ -18,8 +18,6 @@ void check_one_or_more_free(){
     ws_server.broadcastTXT(OCCUPIED,strlen(OCCUPIED));
     toilet_occupied = 1;
   }
-
-  
 }
 
 void init_array(){
