@@ -34,29 +34,7 @@ String footer = "<div class='footer'> Maxime Moreillon </div>";
 String pre_main = "<html>" + head +"<body><div class='wrapper'>" + header + "<div class='main'>";
 String post_main = "</div>" + nav + footer + "</div></body></html>";
 
-// Root (currently not used)
-String root_main = "<div id='status_container'>"
-  "UNDEFINED"
-  "</div>"
-  "<script>"
-  "websock = new WebSocket('ws://' + window.location.hostname + ':81/');"
-  "websock.onopen = function(evt) { console.log('websock open'); };"
-  "websock.onclose = function(evt) { console.log('websock close'); };"
-  "websock.onerror = function(evt) { console.log(evt); };"
-  "websock.onmessage = function(evt) {"
-  "  console.log(evt);"
-  "  var status_container = document.getElementById('status_container');"
-  "  if (evt.data === 'occupied') {"
-  "    status_container.innerText = 'OCCUPIED'"
-  "  }"
-  "  else if (evt.data === 'vacant') {"
-  "    status_container.innerText = 'VACANT'"
-  "  }"
-  "  else {"
-  "    console.log('unknown event');"
-  "  }"
-  "};"
-  "</script>";
+
   
 
 // Update form

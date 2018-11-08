@@ -9,11 +9,36 @@ void web_server_setup(){
 
 void handle_root() {
 
+  // Root (currently not used)
+  String root_main = "<div id='status_container'>"
+    "UNDEFINED"
+    "</div>"
+    "<script>"
+    "websock = new WebSocket('ws://' + window.location.hostname + ':81/');"
+    "websock.onopen = function(evt) { console.log('websock open'); };"
+    "websock.onclose = function(evt) { console.log('websock close'); };"
+    "websock.onerror = function(evt) { console.log(evt); };"
+    "websock.onmessage = function(evt) {"
+    "  console.log(evt);"
+    "  var status_container = document.getElementById('status_container');"
+    "  if (evt.data === 'occupied') {"
+    "    status_container.innerText = 'OCCUPIED'"
+    "  }"
+    "  else if (evt.data === 'vacant') {"
+    "    status_container.innerText = 'VACANT'"
+    "  }"
+    "  else {"
+    "    console.log('unknown event');"
+    "  }"
+    "};"
+    "</script>";
+
+  
   String root_main_v2 = "<h2>Toilets status</h2>";
   
   root_main_v2 += "<table>";
   root_main_v2 += "<th>";
-  root_main_v2 += "Address";
+  root_main_v2 += "IP";
   root_main_v2 += "</th>";
 
   root_main_v2 += "<th>";
@@ -27,7 +52,7 @@ void handle_root() {
 
       // Cell containing the index
       root_main_v2 += "<td>";
-      root_main_v2 += "192.168.4." + String(toilet_index);
+      root_main_v2 += "<a href='http://192.168.4." + String(toilet_index) + "'> 192.168.4." + String(toilet_index) + "</a>";
       root_main_v2 += "</td>";
 
       // Cell containing the occupancy
@@ -127,7 +152,7 @@ void handle_status_update() {
   }
 
   // Might not be the right response
-  String html = pre_main + "OK"+ post_main;
+  String html = pre_main + "OK" + post_main;
   www_server.send(200, "text/html", html);
   
 }
