@@ -14,7 +14,7 @@
 #include <StreamString.h>
 
 // WiFi
-#define WIFI_AP_SSID "toiletIndicatorSouth"
+#define WIFI_AP_SSID "toiletIndicatorNorth"
 #define WIFI_AP_PASSWORD "poketenashi"
 
 // Network

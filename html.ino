@@ -23,7 +23,7 @@ const String nav = "<nav>"
   "<h2>Menu</h2>"
   "<ul>"
   "<li><a href='/'>Status</a></li>"
-  "<li><a href='/'>Party</a></li>"
+  "<li><a href='/party'>Party</a></li>"
   "<li><a href='/update_form'>Firmware update</a></li>"
   "</ul>"
   "</nav>";

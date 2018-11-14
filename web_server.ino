@@ -10,7 +10,7 @@ void web_server_setup(){
 
 void handle_root() {
   
-  String root_main_v2 = "<h2>Toilets status</h2>";
+  String root_main_v2 = "<h2>Toilets status</h2>"
     "<p>Information not updated in real time</p>"
     "<table>"
     "<th>"
@@ -72,7 +72,7 @@ void handle_update_form(){
 }
 
 void handle_update(){
-
+  // Add header
   String upload_status;
   if(Update.hasError()){
     upload_status = "Upload failed";

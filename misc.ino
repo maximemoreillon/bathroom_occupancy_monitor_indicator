@@ -1,19 +1,27 @@
 void check_one_or_more_free(){
+  // TODO: BLUE IF ALL UNKNOWN
   // Sets the light according to occupancy status
   
   boolean one_or_more_free = false;
-
+  boolean one_or_more_occupied = false;
+  
   for(int toilet_index=0; toilet_index<TOILET_COUNT; toilet_index++){
     if(toilets_occupany[toilet_index] == 0){
       one_or_more_free = true;
+    }
+    else if(toilets_occupany[toilet_index] == 1){
+      one_or_more_occupied = true;
     }
   }
 
   if(one_or_more_free){
     LED_set(0,255,0,0,0); // Green
   }
-  else {
+  else if(one_or_more_occupied){
     LED_set(255,0,0,0,0); // Red
+  }
+  else {
+    LED_set(0,0,255,0,0); // Blue
   }
 }
 
