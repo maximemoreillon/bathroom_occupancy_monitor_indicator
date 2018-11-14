@@ -10,6 +10,8 @@
 #include <WiFiUdp.h>
 #include <ESP8266WebServer.h>
 #include <WebSocketsServer.h>
+#include <ArduinoJson.h>
+#include <StreamString.h>
 
 // WiFi
 #define WIFI_AP_SSID "toiletIndicatorNorth"
@@ -17,7 +19,6 @@
 
 // Network
 #define WWW_PORT 80
-#define WS_PORT 81
 
 // I/O
 #define DI_pin 12
@@ -25,7 +26,6 @@
 
 // Web server
 ESP8266WebServer www_server(WWW_PORT);
-WebSocketsServer ws_server = WebSocketsServer(WS_PORT);
 
 // Commands sent through Web Socket
 const char VACANT[] = "vacant";
@@ -53,12 +53,10 @@ void setup() {
   LED_setup();
   wifi_setup();
   web_server_setup();
-  websocket_setup();
   
   LED_set(0,0,255,0,0); // Turn the light blue by default
 }
 
 void loop() {
   www_server.handleClient();
-  ws_server.loop();
 }

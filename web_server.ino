@@ -8,31 +8,6 @@ void web_server_setup(){
 
 
 void handle_root() {
-
-  // Root (currently not used)
-  String root_main = "<div id='status_container'>"
-    "UNDEFINED"
-    "</div>"
-    "<script>"
-    "websock = new WebSocket('ws://' + window.location.hostname + ':81/');"
-    "websock.onopen = function(evt) { console.log('websock open'); };"
-    "websock.onclose = function(evt) { console.log('websock close'); };"
-    "websock.onerror = function(evt) { console.log(evt); };"
-    "websock.onmessage = function(evt) {"
-    "  console.log(evt);"
-    "  var status_container = document.getElementById('status_container');"
-    "  if (evt.data === 'occupied') {"
-    "    status_container.innerText = 'OCCUPIED'"
-    "  }"
-    "  else if (evt.data === 'vacant') {"
-    "    status_container.innerText = 'VACANT'"
-    "  }"
-    "  else {"
-    "    console.log('unknown event');"
-    "  }"
-    "};"
-    "</script>";
-
   
   String root_main_v2 = "<h2>Toilets status</h2>";
   
@@ -82,7 +57,15 @@ void handle_root() {
 }
 
 void handle_update_form(){
+
+  String update_form = "<h2>Firmware update</h2>"
+  "<form method='POST' action='/update' enctype='multipart/form-data'>"
+  "<input type='file' name='update'>"
+  "<input type='submit' value='Update'>"
+  "</form>";
+  
   String html = pre_main + update_form + post_main;
+  
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
@@ -138,13 +121,13 @@ void handle_status_update() {
   // Check the request body for occupancy information
   if (www_server.hasArg("occupied")){
 
+    // Get the client IP
     int toilet_index = www_server.client().remoteIP()[3];
     
     if( www_server.arg("occupied").equals("1") ){
       toilets_occupany[toilet_index] = 1;
-      
     }
-    else if( www_server.arg("occupied").equals("0") ){
+    else{
       toilets_occupany[toilet_index] = 0;
     }
 
@@ -152,7 +135,6 @@ void handle_status_update() {
   }
 
   // Might not be the right response
-  String html = pre_main + "OK" + post_main;
-  www_server.send(200, "text/html", html);
+  www_server.send(200, "text/html", "OK");
   
 }
