@@ -1,5 +1,6 @@
 void web_server_setup(){
   www_server.on("/", handle_root);
+  www_server.on("/party", handle_party);
   www_server.on("/update_form", handle_update_form);
   www_server.on("/update",HTTP_POST, handle_update, handle_update_upload);
   www_server.on("/status_update", handle_status_update);
@@ -10,15 +11,14 @@ void web_server_setup(){
 void handle_root() {
   
   String root_main_v2 = "<h2>Toilets status</h2>";
-  
-  root_main_v2 += "<table>";
-  root_main_v2 += "<th>";
-  root_main_v2 += "IP";
-  root_main_v2 += "</th>";
-
-  root_main_v2 += "<th>";
-  root_main_v2 += "Status";
-  root_main_v2 += "</th>";
+    "<p>Information not updated in real time</p>"
+    "<table>"
+    "<th>"
+    "IP"
+    "</th>"
+    "<th>"
+    "Status"
+    "</th>";
 
   for(int toilet_index=0; toilet_index<TOILET_COUNT; toilet_index++){
 
@@ -138,3 +138,19 @@ void handle_status_update() {
   www_server.send(200, "text/html", "OK");
   
 }
+
+void handle_party(){
+
+  // it's time for party!!!!!
+  party_start_time = millis();
+  
+  String party_main = "<h2>Party</h2>"
+    "Time for party!!!";
+  
+  String html = pre_main + party_main + post_main;
+
+  www_server.sendHeader("Connection", "close");
+  www_server.sendHeader("Access-Control-Allow-Origin", "*");
+  www_server.send(200, "text/html", html);
+}
+

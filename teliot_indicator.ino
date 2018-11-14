@@ -14,7 +14,7 @@
 #include <StreamString.h>
 
 // WiFi
-#define WIFI_AP_SSID "toiletIndicatorNorth"
+#define WIFI_AP_SSID "toiletIndicatorSouth"
 #define WIFI_AP_PASSWORD "poketenashi"
 
 // Network
@@ -27,16 +27,21 @@
 // Web server
 ESP8266WebServer www_server(WWW_PORT);
 
-// Commands sent through Web Socket
-const char VACANT[] = "vacant";
-const char OCCUPIED[] = "occupied";
-
 // Toilet occupancy variable
 // -1: unknown, 0: vacant, 1: occupied
-int toilet_occupied = -1; 
+int toilet_occupied = -1;
 
 #define TOILET_COUNT 255
 int toilets_occupany[TOILET_COUNT];
+
+
+// Party related
+#define PARTY_DURATION 5000 // [ms]
+#define PARTY_COLOR_CHANGE_PERIOD 100 // [ms]
+
+long party_start_time = -PARTY_DURATION;
+long party_last_color_change = -PARTY_COLOR_CHANGE_PERIOD;
+boolean party_ongoing = false;
 
 void setup() {
 
@@ -59,4 +64,5 @@ void setup() {
 
 void loop() {
   www_server.handleClient();
+  party();
 }
